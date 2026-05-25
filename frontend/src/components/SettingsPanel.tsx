@@ -8,11 +8,13 @@ import {
   setOpenAIKey,
   setWeryAIKey,
 } from '../api/client'
+import { useWorkflow } from '../stores/workflowStore'
 
 type SingleStatus = { configured: boolean; masked: string | null }
 type MultiStatus = { configured: boolean; masked: string[]; count: number }
 
 export default function SettingsPanel() {
+  const activeKeyIndex = useWorkflow((s) => s.activeKeyIndex)
   return (
     <div className="flex-1 overflow-y-auto p-6">
       <div className="max-w-xl space-y-6">
@@ -39,6 +41,7 @@ export default function SettingsPanel() {
           multiKey
           helpText="Add as many WeryAI keys as needed. Each WeryAI run randomly selects one saved key."
           placeholder="sk-..."
+          activeKeyIndex={activeKeyIndex}
         />
 
         <div className="text-[11px] text-neutral-500 leading-relaxed pt-2 border-t border-line">
@@ -61,6 +64,7 @@ interface ProviderCardProps {
   helpText: string
   placeholder?: string
   multiKey?: boolean
+  activeKeyIndex?: number | null
 }
 
 function ProviderCard({
@@ -72,6 +76,7 @@ function ProviderCard({
   helpText,
   placeholder,
   multiKey = false,
+  activeKeyIndex = null,
 }: ProviderCardProps) {
   const [configured, setConfigured] = useState(false)
   const [masked, setMasked] = useState<string[]>([])
@@ -151,17 +156,21 @@ function ProviderCard({
       {multiKey && masked.length > 0 && (
         <div className="space-y-1">
           <div className="text-[11px] text-neutral-500">Saved keys:</div>
-          {masked.map((item, index) => (
-            <div key={`${item}_${index}`} className="flex items-center gap-2 text-[11px]">
-              <span className="text-neutral-300 font-display flex-1">{index + 1}. {item}</span>
-              <button
-                onClick={() => removeOne(index)}
-                className="px-2 py-1 border border-danger/40 text-danger rounded hover:bg-danger/10"
-              >
-                Delete
-              </button>
-            </div>
-          ))}
+          {masked.map((item, index) => {
+            const isActive = activeKeyIndex === index
+            return (
+              <div key={`${item}_${index}`} className="flex items-center gap-2 text-[11px]">
+                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isActive ? 'bg-accent animate-pulse' : 'bg-neutral-700'}`} />
+                <span className="text-neutral-300 font-display flex-1">{index + 1}. {item}</span>
+                <button
+                  onClick={() => removeOne(index)}
+                  className="px-2 py-1 border border-danger/40 text-danger rounded hover:bg-danger/10"
+                >
+                  Delete
+                </button>
+              </div>
+            )
+          })}
         </div>
       )}
 

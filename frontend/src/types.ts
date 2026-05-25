@@ -37,7 +37,7 @@ export interface NodeData {
 }
 
 export interface RunEvent {
-  type: 'run_started' | 'node_started' | 'node_finished' | 'run_finished' | 'ping'
+  type: 'run_started' | 'node_started' | 'node_finished' | 'run_finished' | 'ping' | 'key_active'
   node_id?: string
   node_type?: string
   status?: 'success' | 'failed'
@@ -45,6 +45,8 @@ export interface RunEvent {
   preview_b64?: string
   error?: string
   run_id?: string
+  provider?: string
+  key_index?: number
 }
 
 export interface GalleryImage {

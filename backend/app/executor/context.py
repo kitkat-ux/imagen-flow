@@ -62,6 +62,10 @@ class ExecutionContext:
                 api_keys = [legacy_key] if legacy_key else []
             if not api_keys:
                 raise ValueError("Chưa cấu hình WeryAI API key. Vào trang Settings để nhập.")
-            api_key = random.choice(api_keys)
-            self._weryai = WeryAIProvider(api_key)
+            idx = random.randrange(len(api_keys))
+            self._weryai = WeryAIProvider(api_keys[idx])
+            if self.broadcaster:
+                await self.broadcaster.publish(self.run_id, {
+                    "type": "key_active", "provider": "weryai", "key_index": idx,
+                })
         return self._weryai

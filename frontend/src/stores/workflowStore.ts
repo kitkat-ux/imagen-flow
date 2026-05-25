@@ -34,6 +34,7 @@ interface State {
 
   runId: string | null
   isRunning: boolean
+  activeKeyIndex: number | null
   setRunId: (id: string | null) => void
   setRunning: (b: boolean) => void
   applyRunEvent: (e: RunEvent) => void
@@ -127,6 +128,7 @@ export const useWorkflow = create<State>((set, get) => ({
 
   runId: null,
   isRunning: false,
+  activeKeyIndex: null,
   setRunId: (id) => set({ runId: id }),
   setRunning: (b) => set({ isRunning: b }),
 
@@ -163,8 +165,10 @@ export const useWorkflow = create<State>((set, get) => ({
             : n,
         ),
       }))
+    } else if (e.type === 'key_active' && e.provider === 'weryai') {
+      set({ activeKeyIndex: e.key_index ?? null })
     } else if (e.type === 'run_finished') {
-      set({ isRunning: false })
+      set({ isRunning: false, activeKeyIndex: null })
     }
   },
 }))
