@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import {
-  ReactFlow, Background, Controls, MiniMap,
+  ReactFlow, Background, Controls, MiniMap, SelectionMode,
   type NodeTypes, type Node,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
@@ -43,7 +43,7 @@ export default function Canvas() {
         onNodeClick={(_, n: Node) => setSelected(n.id)}
         onPaneClick={() => setSelected(null)}
         deleteKeyCode={['Delete', 'Backspace']}
-        selectionMode="partial"
+        selectionMode={SelectionMode.Partial}
         fitView
         defaultEdgeOptions={{ animated: false }}
         proOptions={{ hideAttribution: true }}
