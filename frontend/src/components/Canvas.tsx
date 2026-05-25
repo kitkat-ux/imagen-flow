@@ -44,6 +44,7 @@ export default function Canvas() {
         onPaneClick={() => setSelected(null)}
         deleteKeyCode={['Delete', 'Backspace']}
         selectionMode={SelectionMode.Partial}
+        minZoom={0.1}
         fitView
         defaultEdgeOptions={{ animated: false }}
         proOptions={{ hideAttribution: true }}
