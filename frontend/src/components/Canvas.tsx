@@ -43,6 +43,7 @@ export default function Canvas() {
         onNodeClick={(_, n: Node) => setSelected(n.id)}
         onPaneClick={() => setSelected(null)}
         deleteKeyCode={['Delete', 'Backspace']}
+        selectionMode="partial"
         fitView
         defaultEdgeOptions={{ animated: false }}
         proOptions={{ hideAttribution: true }}
