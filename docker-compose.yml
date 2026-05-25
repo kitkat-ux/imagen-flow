@@ -1,0 +1,50 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: imagen
+      POSTGRES_PASSWORD: imagen
+      POSTGRES_DB: imagen
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U imagen"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://imagen:imagen@db:5432/imagen
+      DATA_DIR: /data
+      MASTER_KEY: ${MASTER_KEY:-change-me-please-use-a-real-secret-key}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      STORAGE_PROVIDER: ${STORAGE_PROVIDER:-}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-}
+      CLOUDINARY_UPLOAD_PRESET: ${CLOUDINARY_UPLOAD_PRESET:-}
+      CLOUDINARY_FOLDER: ${CLOUDINARY_FOLDER:-imagen-flow}
+    volumes:
+      - data:/data
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      BACKEND_HOST: backend
+    ports:
+      - "8080:80"
+
+volumes:
+  db_data:
+  data:

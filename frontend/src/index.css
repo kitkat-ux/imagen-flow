@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    @apply bg-ink text-paper font-body;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* React Flow overrides */
+.react-flow {
+  background: #0a0a0a;
+  background-image:
+    radial-gradient(circle, #1f1f1f 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.react-flow__node {
+  font-family: '"IBM Plex Sans"', system-ui, sans-serif;
+}
+
+.react-flow__handle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #84cc16;
+  background: #0a0a0a;
+}
+
+.react-flow__handle.connectingto {
+  background: #84cc16;
+}
+
+.react-flow__edge-path {
+  stroke: #525252;
+  stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path,
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke: #84cc16;
+}
+
+.react-flow__controls {
+  background: #171717;
+  border: 1px solid #262626;
+  border-radius: 6px;
+}
+
+.react-flow__controls button {
+  background: #171717;
+  color: #fafaf9;
+  border-bottom: 1px solid #262626;
+}
+
+.react-flow__controls button:hover {
+  background: #262626;
+}
+
+.react-flow__minimap {
+  background: #171717;
+  border: 1px solid #262626;
+  border-radius: 6px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #404040; }

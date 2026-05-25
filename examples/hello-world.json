@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "id": "n_prompt",
+      "type": "input.text",
+      "position": { "x": 80, "y": 120 },
+      "data": {
+        "nodeType": "input.text",
+        "params": {
+          "value": "A cyberpunk city street at night, neon lights reflecting on wet asphalt, ultra realistic"
+        }
+      }
+    },
+    {
+      "id": "n_gen",
+      "type": "openai.image.generate",
+      "position": { "x": 420, "y": 80 },
+      "data": {
+        "nodeType": "openai.image.generate",
+        "params": {
+          "model": "gpt-image-1",
+          "size": "1024x1024",
+          "quality": "medium",
+          "n": 1
+        }
+      }
+    },
+    {
+      "id": "n_save",
+      "type": "output.save",
+      "position": { "x": 800, "y": 120 },
+      "data": {
+        "nodeType": "output.save",
+        "params": {}
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "n_prompt",
+      "sourceHandle": "text",
+      "target": "n_gen",
+      "targetHandle": "prompt"
+    },
+    {
+      "id": "e2",
+      "source": "n_gen",
+      "sourceHandle": "image",
+      "target": "n_save",
+      "targetHandle": "image"
+    },
+    {
+      "id": "e3",
+      "source": "n_prompt",
+      "sourceHandle": "text",
+      "target": "n_save",
+      "targetHandle": "prompt"
+    }
+  ]
+}

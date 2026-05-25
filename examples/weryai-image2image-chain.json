@@ -1,0 +1,54 @@
+{
+  "_comment": "Chain: tạo ảnh ban đầu bằng T2I, sau đó dùng I2I để edit. Provider tự upload ảnh giữa hai bước.",
+  "nodes": [
+    {
+      "id": "n_p1",
+      "type": "input.text",
+      "position": { "x": 60, "y": 60 },
+      "data": {
+        "nodeType": "input.text",
+        "params": { "value": "A photorealistic portrait of a young woman, soft natural lighting" }
+      }
+    },
+    {
+      "id": "n_t2i",
+      "type": "weryai.gpt_image_2.text2image",
+      "position": { "x": 380, "y": 60 },
+      "data": {
+        "nodeType": "weryai.gpt_image_2.text2image",
+        "params": { "aspect_ratio": "1:1", "quality": "medium" }
+      }
+    },
+    {
+      "id": "n_p2",
+      "type": "input.text",
+      "position": { "x": 60, "y": 320 },
+      "data": {
+        "nodeType": "input.text",
+        "params": { "value": "Transform into Studio Ghibli anime style, keep the pose and composition" }
+      }
+    },
+    {
+      "id": "n_i2i",
+      "type": "weryai.gpt_image_2.image2image",
+      "position": { "x": 760, "y": 180 },
+      "data": {
+        "nodeType": "weryai.gpt_image_2.image2image",
+        "params": { "aspect_ratio": "1:1", "quality": "high" }
+      }
+    },
+    {
+      "id": "n_save",
+      "type": "output.save",
+      "position": { "x": 1140, "y": 180 },
+      "data": { "nodeType": "output.save", "params": {} }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n_p1", "sourceHandle": "text",  "target": "n_t2i", "targetHandle": "prompt" },
+    { "id": "e2", "source": "n_t2i","sourceHandle": "image", "target": "n_i2i", "targetHandle": "image" },
+    { "id": "e3", "source": "n_p2", "sourceHandle": "text",  "target": "n_i2i", "targetHandle": "prompt" },
+    { "id": "e4", "source": "n_i2i","sourceHandle": "image", "target": "n_save","targetHandle": "image" },
+    { "id": "e5", "source": "n_p2", "sourceHandle": "text",  "target": "n_save","targetHandle": "prompt" }
+  ]
+}
