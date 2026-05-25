@@ -42,6 +42,7 @@ export default function Canvas() {
         nodeTypes={nodeTypes}
         onNodeClick={(_, n: Node) => setSelected(n.id)}
         onPaneClick={() => setSelected(null)}
+        deleteKeyCode={['Delete', 'Backspace']}
         fitView
         defaultEdgeOptions={{ animated: false }}
         proOptions={{ hideAttribution: true }}

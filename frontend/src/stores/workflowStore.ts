@@ -57,7 +57,13 @@ export const useWorkflow = create<State>((set, get) => ({
   setCurrentWorkflow: (id, name = null) => set({ currentWorkflowId: id, currentWorkflowName: name }),
 
   onNodesChange: (changes) =>
-    set((s) => ({ nodes: applyNodeChanges(changes, s.nodes) as Node<NodeData>[] })),
+    set((s) => {
+      const removedIds = changes.filter((c) => c.type === 'remove').map((c) => c.id)
+      return {
+        nodes: applyNodeChanges(changes, s.nodes) as Node<NodeData>[],
+        selectedNodeId: removedIds.includes(s.selectedNodeId ?? '') ? null : s.selectedNodeId,
+      }
+    }),
   onEdgesChange: (changes) =>
     set((s) => ({ edges: applyEdgeChanges(changes, s.edges) })),
   onConnect: (conn) =>
