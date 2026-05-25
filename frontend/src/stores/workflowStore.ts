@@ -165,11 +165,12 @@ export const useWorkflow = create<State>((set, get) => ({
             : n,
         ),
       }))
+    } else if (e.type === 'run_started') {
+      set({ activeKeyIndex: null })
     } else if (e.type === 'key_active' && e.provider === 'weryai') {
       set({ activeKeyIndex: e.key_index ?? null })
     } else if (e.type === 'run_finished') {
       set({ isRunning: false })
-      setTimeout(() => set({ activeKeyIndex: null }), 3000)
     }
   },
 }))

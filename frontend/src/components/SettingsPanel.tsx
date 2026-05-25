@@ -15,6 +15,7 @@ type MultiStatus = { configured: boolean; masked: string[]; count: number }
 
 export default function SettingsPanel() {
   const activeKeyIndex = useWorkflow((s) => s.activeKeyIndex)
+  const isRunning = useWorkflow((s) => s.isRunning)
   return (
     <div className="flex-1 overflow-y-auto p-6">
       <div className="max-w-xl space-y-6">
@@ -42,6 +43,7 @@ export default function SettingsPanel() {
           helpText="Add as many WeryAI keys as needed. Each WeryAI run randomly selects one saved key."
           placeholder="sk-..."
           activeKeyIndex={activeKeyIndex}
+          isRunning={isRunning}
         />
 
         <div className="text-[11px] text-neutral-500 leading-relaxed pt-2 border-t border-line">
@@ -65,6 +67,7 @@ interface ProviderCardProps {
   placeholder?: string
   multiKey?: boolean
   activeKeyIndex?: number | null
+  isRunning?: boolean
 }
 
 function ProviderCard({
@@ -77,6 +80,7 @@ function ProviderCard({
   placeholder,
   multiKey = false,
   activeKeyIndex = null,
+  isRunning = false,
 }: ProviderCardProps) {
   const [configured, setConfigured] = useState(false)
   const [masked, setMasked] = useState<string[]>([])
@@ -160,7 +164,7 @@ function ProviderCard({
             const isActive = activeKeyIndex === index
             return (
               <div key={`${item}_${index}`} className="flex items-center gap-2 text-[11px]">
-                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isActive ? 'bg-accent animate-pulse' : 'bg-neutral-700'}`} />
+                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isActive ? isRunning ? 'bg-accent animate-pulse' : 'bg-accent' : 'bg-neutral-700'}`} />
                 <span className="text-neutral-300 font-display flex-1">{index + 1}. {item}</span>
                 <button
                   onClick={() => removeOne(index)}
